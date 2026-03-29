@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yiran Zhang | Sound Design & Engineering</title>
+    <style>
+        :root {
+            /* 预设颜色变量：方便以后统一修改配色 */
+            --primary: #ff6b6b;   /* 主色调：珊瑚红 */
+            --secondary: #4ecdc4; /* 次色调：薄荷绿 */
+            --accent: #ffe66d;    /* 强调色：明黄 */
+            --dark: #1a1a1a;      /* 深色文字 */
+            --text: #333;         /* 普通正文颜色 */
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            
+            /* --- 渐变背景开始 --- */
+            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            background-size: 400% 400%; /* 背景放大，这样移动时才会有流动的效果 */
+            animation: gradientBG 15s ease infinite; /* 15秒循环一次的流动动画 */
+            /* --- 渐变背景结束 --- */
+            
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: var(--text);
+            line-height: 1.6;
+            padding: 40px 0;
+        }
+
+        /* 渐变背景移动的动画逻辑 */
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* 中间白色的半透明磨砂玻璃卡片 */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85); /* 85%不透明度的白色 */
+            backdrop-filter: blur(12px);          /* 背景模糊效果 */
+            border-radius: 40px;                  /* 大圆角 */
+            padding: 60px 40px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.1);
+            max-width: 900px;
+            width: 90%;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+        h1 { 
+            font-family: 'Quicksand', sans-serif; /* 换成圆润可爱的字体 */
+            font-size: 3.5rem;          /* 稍微加大一点，显眼 */
+            margin: 0;                  /* 去掉多余边距 */
+            color: #1a1a1a;             /* 保持深色，专业感 */
+            letter-spacing: -2px;       /* 让字母挤在一起，更有设计感 */
+            
+            /* 关键：让名字倾斜，显得不呆板 */
+            display: inline-block;        
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Q弹动画 */
+        }
+
+        /* 鼠标滑过名字时，它会变色并“站正” */
+        h1:hover {
+            transform: rotate(0deg) scale(1.1); /* 站正并放大 1.1 倍 */
+            color: #ff6b6b;                     /* 变成活泼的珊瑚红 */
+        }
+
+        /* 10 years. Millions of players... 这行的样式 */
+        .experience-stat {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 30px;
+        }
+
+        /* 自我介绍段落的样式 */
+        /* 1. 修复自我介绍：改为两端对齐 */
+        .bio {
+            font-size: 1.15rem;
+            color: #444;
+            max-width: 650px;
+            margin: 0 auto 50px;
+            text-align: center;      
+            text-align-last: center;  /* 最后一行居中，视觉更平衡 */
+        }
+
+        /* 视频网格布局：自动适配屏幕宽度 */
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        /* 每一个视频作品的小方块 */
+        .video-card {
+            background: white;
+            border-radius: 24px;
+            cursor: pointer;
+            border: 3px solid transparent;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Q弹动画曲线 */
+            position: relative;
+            overflow: hidden; /* 保证视频不超出圆角 */
+            aspect-ratio: 16 / 10; /* 视频框比例 */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+        }
+/* 确保链接标签在网格中不乱跑 */
+        /* 2. 修复链接：让它直接变成一个网格里的方块 */
+        /* 3. 确保简历链接像其他视频块一样填满格子 */
+.resume-link {
+    text-decoration: none;
+    color: inherit;
+    display: flex; /* 保持内部图标居中 */
+}
+
+        /* 鼠标悬停到方块上时的效果 */
+        .video-card:hover {
+            transform: translateY(-10px) scale(1.05); /* 向上跳一下并稍微变大 */
+            border-color: var(--secondary);           /* 边框变色 */
+            box-shadow: 0 20px 40px rgba(78, 205, 196, 0.25);
+        }
+
+        /* 视频标签的基础设置 */
+        .video-card video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* 视频铺满整个方块 */
+            opacity: 0;        /* 平时不可见 */
+            transition: opacity 0.3s ease;
+        }
+
+        /* 悬停时显示视频 */
+        .video-card:hover video {
+            opacity: 1;
+        }
+
+        /* 方块里的默认文字和图标层 */
+        .card-content {
+            z-index: 10;
+            transition: opacity 0.3s ease;
+        }
+
+        /* 悬停时隐藏文字，让位给视频 */
+        .video-card:hover .card-content {
+            opacity: 0;
+        }
+
+        .video-card i { font-size: 2.8rem; margin-bottom: 15px; display: block; }
+        .video-card span { font-weight: 600; font-size: 1rem; color: var(--dark); }
+
+    </style>
+</head>
+<body>
+
+    <div class="glass-card">
+        <h1>Yiran Zhang</h1>
+        <div class="experience-stat">10 years. Millions of players. Zero missed cues.</div>
+        
+        <div class="bio">
+            <p>👋 I’m Yiran, a Sound Designer who lives for the sweet spot between technical optimization and creative storytelling.</p>
+            <p>I’ve built audio experience for massive mobile platforms and designed immersive soundscapes for intimate stages. My mission? To make sure every click, clack, and crescendo feels intentional, responsive, and most importantly: surprising.</p>
+        </div>
+
+        <div class="video-grid">
+            
+            <a href="Yiran Zhang-Resume-Mar. 29.pdf" target="_blank" class="video-card resume-link">
+    <div class="card-content">
+        <i>📄</i>
+        <span>View Resume</span>
+    </div>
+</a>
+
+            <div class="video-card">
+                <video src="mobile_video.mp4" loop muted preload="metadata" playsinline></video>
+                <div class="card-content">
+                    <i>📱</i>
+                    <span>Work for Mobile Games</span>
+                </div>
+            </div>
+
+            <div class="video-card">
+                <video src="theater_video.mp4" loop muted preload="metadata" playsinline></video>
+                <div class="card-content">
+                    <i>🎭</i>
+                    <span>Work for Theater</span>
+                </div>
+            </div>
+
+            <div class="video-card">
+                <video src="demo_video.mp4" loop muted preload="metadata" playsinline></video>
+                <div class="card-content">
+                    <i>🎸</i>
+                    <span>Fun Demo</span>
+                </div>
+            </div>
+
+        </div>
+
+    <script>
+        // 控制视频播放逻辑的脚本
+        const videoCards = document.querySelectorAll('.video-card');
+
+        videoCards.forEach(card => {
+            const video = card.querySelector('video');
+
+            // 只有当卡片里有视频标签时，才执行播放逻辑
+            if (video) {
+                card.addEventListener('mouseenter', () => {
+                    video.currentTime = 0;
+                    video.play().catch(e => console.log("Autoplay blocked"));
+                });
+
+                card.addEventListener('mouseleave', () => {
+                    video.pause();
+                    video.currentTime = 0;
+                });
+            }
+        });
+    </script>
+</body>
+</html>
