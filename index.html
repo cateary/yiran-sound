@@ -62,7 +62,7 @@
             letter-spacing: -2px;       /* 让字母挤在一起，更有设计感 */
             
             /* 关键：让名字倾斜，显得不呆板 */
-            display: inline-block;        
+            display: inline-block;       
             transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Q弹动画 */
         }
 
@@ -70,6 +70,16 @@
         h1:hover {
             transform: rotate(0deg) scale(1.1); /* 站正并放大 1.1 倍 */
             color: #ff6b6b;                     /* 变成活泼的珊瑚红 */
+        }
+
+        /* --- 这里的 .subtitle 是新增的 --- */
+        .subtitle {
+            font-family: 'Quicksand', sans-serif;
+            font-size: 1.4rem;
+            color: #555;
+            margin-top: -5px;   /* 让它离名字近一点 */
+            margin-bottom: 25px;
+            font-weight: 500;
         }
 
         /* 10 years. Millions of players... 这行的样式 */
@@ -83,7 +93,6 @@
         }
 
         /* 自我介绍段落的样式 */
-        /* 1. 修复自我介绍：改为两端对齐 */
         .bio {
             font-size: 1.15rem;
             color: #444;
@@ -116,17 +125,11 @@
             align-items: center;
             justify-content: center;
             box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+            text-decoration: none; /* 去掉 a 标签的下划线 */
+            color: inherit;
         }
-/* 确保链接标签在网格中不乱跑 */
-        /* 2. 修复链接：让它直接变成一个网格里的方块 */
-        /* 3. 确保简历链接像其他视频块一样填满格子 */
-.resume-link {
-    text-decoration: none;
-    color: inherit;
-    display: flex; /* 保持内部图标居中 */
-}
 
-        /* 鼠标悬停到方块上时的效果 */
+        /* 鼠标悬停到方块上时的整体效果 */
         .video-card:hover {
             transform: translateY(-10px) scale(1.05); /* 向上跳一下并稍微变大 */
             border-color: var(--secondary);           /* 边框变色 */
@@ -134,35 +137,78 @@
         }
 
         /* 视频标签的基础设置 */
-        .video-card video {
+        .video-card video, 
+        .video-card iframe {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            object-fit: cover; /* 视频铺满整个方块 */
-            opacity: 0;        /* 平时不可见 */
+            object-fit: cover;
+            border: none;      
+            opacity: 0;        /* 初始隐藏 */
             transition: opacity 0.3s ease;
+            z-index: 1;
         }
 
-        /* 悬停时显示视频 */
-        .video-card:hover video {
+        /* 鼠标悬停时，视频显示 */
+        .video-card:hover video,
+        .video-card:hover iframe {
             opacity: 1;
         }
 
-        /* 方块里的默认文字和图标层 */
+        /* 确保白色封面层完全覆盖 */
         .card-content {
-            z-index: 10;
-            transition: opacity 0.3s ease;
+            background: white; 
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;        /* 确保在视频层之上 */
+            transition: background 0.3s ease; /* 让背景变化变平滑 */
         }
 
-        /* 悬停时隐藏文字，让位给视频 */
+        /* 图标和文字的基础设置（增加了过渡动画） */
+        .video-card i { 
+            font-size: 2.8rem; 
+            margin-bottom: 15px; 
+            display: block; 
+            transition: all 0.3s ease; /* 动画缓冲 */
+        }
+        .video-card span { 
+            font-weight: 600; 
+            font-size: 1rem; 
+            color: var(--dark); 
+            display: inline-block;     /* 必须加这个，transform 才能生效 */
+            transition: all 0.3s ease; /* 动画缓冲 */
+        }
+
+        /* ========================================= */
+        /* 以下是修改后的交互特效区域                  */
+        /* ========================================= */
+
+        /* 1. 悬停时：背景变成半透明（让底下的视频透出来），而不是彻底透明消失 */
         .video-card:hover .card-content {
-            opacity: 0;
+            background: rgba(255, 255, 255, 0.7); /* 半透明白色，既能看清文字，又能看到视频 */
         }
 
-        .video-card i { font-size: 2.8rem; margin-bottom: 15px; display: block; }
-        .video-card span { font-weight: 600; font-size: 1rem; color: var(--dark); }
+        /* 2. 悬停时：图标放大并变成珊瑚红 */
+        .video-card:hover .card-content i {
+            transform: scale(1.15);
+            color: var(--primary);
+        }
+
+        /* 3. 悬停时：文字放大并变成珊瑚红 */
+        .video-card:hover .card-content span {
+            transform: scale(1.15);
+            color: var(--primary);
+        }
+        /* ========================================= */
 
     </style>
 </head>
@@ -170,65 +216,66 @@
 
     <div class="glass-card">
         <h1>Yiran Zhang</h1>
+        <div class="subtitle">Sound Design & Engineering</div>
         <div class="experience-stat">10 years. Millions of players. Zero missed cues.</div>
         
         <div class="bio">
-            <p>👋 I’m Yiran, a sound designer specializes in creating feedback-driven sound systems, optimizing audio for
-seamless user interaction, and colaborating across teams to bring consistent, high quality
-audio to users.</p>
-            <p>I have more than 10 years of experience crafting sound across mobile games,
-theater, live events, and exhibitions. From casual games played by milions at Shopee to
-intimate black box theaters in NYC, I have built soundscapes that connect, engage and
-surprise.</p>
+            <p>👋 I’m Yiran, a sound designer specializes in creating feedback-driven sound systems, optimizing audio for seamless user interaction, and colaborating across teams to bring consistent, high quality audio to users.</p>
+            <p>I have more than 10 years of experience crafting sound across mobile games, theater, live events, and exhibitions. From casual games played by milions at Shopee to intimate black box theaters in NYC, I have built soundscapes that connect, engage and surprise.</p>
         </div>
 
         <div class="video-grid">
             
-            <a href="Yiran Zhang-Resume-Mar. 29.pdf" target="_blank" class="video-card resume-link">
-    <div class="card-content">
-        <i>📄</i>
-        <span>View Resume</span>
-    </div>
-</a>
+            <a href="Yiran Zhang-Resume-Mar. 29.pdf" target="_blank" class="video-card">
+                <div class="card-content">
+                    <i>📄</i>
+                    <span>View Resume</span>
+                </div>
+            </a>
 
-            <div class="video-card">
-                <video src="mobile_video.mp4" loop muted preload="metadata" playsinline></video>
+            <a href="https://www.youtube.com/watch?v=_QSLh5h8_oc" target="_blank" class="video-card">
+                <video src="mobile_preview.mp4" loop muted preload="metadata" playsinline></video>
                 <div class="card-content">
                     <i>📱</i>
                     <span>Work for Mobile Games</span>
                 </div>
-            </div>
+            </a>
 
-            <div class="video-card">
+            <a href="你的高清视频地址.mp4" target="_blank" class="video-card">
                 <video src="theater_video.mp4" loop muted preload="metadata" playsinline></video>
                 <div class="card-content">
                     <i>🎭</i>
                     <span>Work for Theater</span>
                 </div>
-            </div>
+            </a>
 
-            <div class="video-card">
+            <a href="你的高清视频地址.mp4" target="_blank" class="video-card">
                 <video src="demo_video.mp4" loop muted preload="metadata" playsinline></video>
                 <div class="card-content">
                     <i>🎸</i>
                     <span>Fun Demo</span>
                 </div>
-            </div>
+            </a>
 
         </div>
+    </div>
 
     <script>
-        // 控制视频播放逻辑的脚本
+        // 控制预览视频播放的逻辑
         const videoCards = document.querySelectorAll('.video-card');
 
         videoCards.forEach(card => {
             const video = card.querySelector('video');
 
-            // 只有当卡片里有视频标签时，才执行播放逻辑
             if (video) {
                 card.addEventListener('mouseenter', () => {
                     video.currentTime = 0;
-                    video.play().catch(e => console.log("Autoplay blocked"));
+                    const playPromise = video.play();
+                    if (playPromise !== undefined) {
+                        playPromise.catch(error => {
+                            console.log("预览自动播放被拦截");
+                        });
+                    }
                 });
 
                 card.addEventListener('mouseleave', () => {
